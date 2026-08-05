@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InkForge</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body data-theme="dark">
+
+  <!-- Sidebar Nav -->
+  <aside class="sidebar">
+    <!-- Animated Green Bubbles Effect Container -->
+    <div class="sidebar-bubbles">
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+    </div>
+
+    <!-- Brand Section -->
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-pen-nib"></i></div>
+      <span>InkForge</span>
+    </div>
+    
+    <button class="new-chat-btn" onclick="resetChat()">
+  <i class="fa-solid fa-plus"></i> New Chat
+</button>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      {% for section, modes in sidebar_modes.items() %}
+      <div class="nav-section">
+        <h4>{{ section }}</h4>
+        {% for mode in modes %}
+        <div class="nav-item {% if loop.first and section == 'General' %}active{% endif %}" data-mode="{{ mode }}" onclick="setMode('{{ mode }}', this)">
+          <i class="mode-icon"></i>
+          <span>{{ mode }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </nav>
+
+    <!-- User Profile Footer -->
+    <div class="sidebar-user-card">
+      <div class="user-avatar-circle">M</div>
+      <div class="user-info">
+        <div class="user-name">Mobeen Fatima</div>
+        <div class="user-plan">Free plan</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Workspace -->
+  <main class="main-workspace">
+    <!-- Top Header -->
+    <header class="top-bar">
+      <div class="current-mode">
+        <span class="mode-label">MODE</span>
+        <span class="mode-badge" id="active-mode-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> General Assistant</span>
+      </div>
+      <div class="top-actions">
+        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+        <button class="top-new-chat-btn" onclick="resetChat()">
+  <i class="fa-solid fa-plus"></i> New Chat
+</button>
+        <div class="header-avatar">M</div>
+      </div>
+    </header>
+
+    <!-- Chat Flow -->
+    <div class="chat-container" id="chat-container">
+      <!-- Default Empty State -->
+      <div class="empty-state" id="empty-state">
+        <div class="mode-icon-large" id="empty-state-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <h2 id="empty-state-title">General Assistant</h2>
+        <p id="empty-state-desc">All-purpose AI writing help for any content</p>
+        
+        <div class="suggestions-grid" id="suggestions-grid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Box Bottom -->
+   <div class="main-content">
+    <!-- Chat Area -->
+    <div class="chat-container" id="chat-container">
+        <!-- Messages populate here -->
+    </div>
+
+    <!-- Input Footer Wrapper -->
+    <div class="input-area-wrapper">
+        <div class="input-container">
+            <textarea 
+                id="prompt-input" 
+                placeholder="Ask me anything or describe the content you need..." 
+                rows="1" 
+                oninput="handleInput(this)" 
+                onkeydown="handleEnter(event)"
+            ></textarea>
+            
+            <div class="input-footer">
+                <div class="input-tools">
+                    <span class="char-counter" id="char-counter">0 / 5000</span>
+                </div>
+                
+                <button id="send-btn" class="send-btn" onclick="sendMessage()" aria-label="Send message">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+  </main>
+<!-- Toast Notification Container -->
+<div id="toast-container" class="toast-container"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
