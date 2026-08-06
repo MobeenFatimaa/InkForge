@@ -30,8 +30,8 @@
     </div>
     
     <button class="new-chat-btn" onclick="resetChat()">
-  <i class="fa-solid fa-plus"></i> New Chat
-</button>
+      <i class="fa-solid fa-plus"></i> New Chat
+    </button>
 
     <nav class="sidebar-nav" id="sidebar-nav">
       {% for section, modes in sidebar_modes.items() %}
@@ -47,12 +47,18 @@
       {% endfor %}
     </nav>
 
-    <!-- User Profile Footer -->
+    <!-- Custom Developer Footer -->
     <div class="sidebar-user-card">
-      <div class="user-avatar-circle">M</div>
       <div class="user-info">
-        <div class="user-name">Mobeen Fatima</div>
-        <div class="user-plan">Free plan</div>
+        <div class="developer-credit">Developed by <strong>Mobeen Fatima</strong></div>
+        <div class="social-links">
+          <a href="https://github.com/MobeenFatimaa" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="GitHub Profile">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/mobeen-fatima-599a35347/" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn Profile">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </div>
       </div>
     </div>
   </aside>
@@ -70,13 +76,13 @@
           <i class="fa-solid fa-moon" id="theme-icon"></i>
         </button>
         <button class="top-new-chat-btn" onclick="resetChat()">
-  <i class="fa-solid fa-plus"></i> New Chat
-</button>
+          <i class="fa-solid fa-plus"></i> New Chat
+        </button>
         <div class="header-avatar">M</div>
       </div>
     </header>
 
-    <!-- Chat Flow -->
+    <!-- Chat Flow & Main Content -->
     <div class="chat-container" id="chat-container">
       <!-- Default Empty State -->
       <div class="empty-state" id="empty-state">
@@ -91,38 +97,31 @@
     </div>
 
     <!-- Input Box Bottom -->
-   <div class="main-content">
-    <!-- Chat Area -->
-    <div class="chat-container" id="chat-container">
-        <!-- Messages populate here -->
-    </div>
-
-    <!-- Input Footer Wrapper -->
     <div class="input-area-wrapper">
-        <div class="input-container">
-            <textarea 
-                id="prompt-input" 
-                placeholder="Ask me anything or describe the content you need..." 
-                rows="1" 
-                oninput="handleInput(this)" 
-                onkeydown="handleEnter(event)"
-            ></textarea>
-            
-            <div class="input-footer">
-                <div class="input-tools">
-                    <span class="char-counter" id="char-counter">0 / 5000</span>
-                </div>
-                
-                <button id="send-btn" class="send-btn" onclick="sendMessage()" aria-label="Send message">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
+      <div class="input-container">
+        <textarea 
+          id="prompt-input" 
+          placeholder="Ask me anything or describe the content you need..." 
+          rows="1" 
+          oninput="handleInput(this)" 
+          onkeydown="handleEnter(event)"
+        ></textarea>
+        
+        <div class="input-footer">
+          <div class="input-tools">
+            <span class="char-counter" id="char-counter">0 / 5000</span>
+          </div>
+          
+          <button id="send-btn" class="send-btn" onclick="sendMessage()" aria-label="Send message">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
         </div>
+      </div>
     </div>
-</div>
   </main>
-<!-- Toast Notification Container -->
-<div id="toast-container" class="toast-container"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
   <script src="/static/js/app.js"></script>
 </body>
 </html>
