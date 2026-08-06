@@ -14,6 +14,14 @@
   --chat-user: #8b5cf6;
   --chat-ai: #130f1e;
   --glass-bg: rgba(19, 15, 30, 0.85);
+
+  --bg-primary: #0f0c1b;
+  --card-bg: rgba(22, 18, 36, 0.85);
+  --border-color: rgba(168, 85, 247, 0.25);
+  --text-primary: #f3f4f6;
+  --input-bg: rgba(22, 18, 36, 0.75);
+  --counter-bg: rgba(255, 255, 255, 0.05);
+  --counter-border: rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="light"] {
@@ -32,6 +40,14 @@
   --chat-user: #800080;
   --chat-ai: #ffffff;
   --glass-bg: rgba(255, 255, 255, 0.85);
+
+  --bg-primary: #f8fafc;
+  --card-bg: #ffffff;
+  --border-color: rgba(168, 85, 247, 0.3);
+  --text-primary: #1e1b4b;
+  --input-bg: #ffffff;
+  --counter-bg: rgba(168, 85, 247, 0.08);
+  --counter-border: rgba(168, 85, 247, 0.15);
 }
 
 * {
@@ -222,31 +238,59 @@ body {
   border-radius: 0 4px 4px 0;
 }
 
+/* Updated Sidebar Developer Footer */
 .sidebar-user-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid var(--border);
   margin-top: 8px;
 }
 
-.user-avatar-circle {
-  width: 34px;
-  height: 34px;
-  background-color: var(--accent-light);
-  color: var(--accent);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: 1px solid var(--border);
+.sidebar-user-card .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
-.user-info { display: flex; flex-direction: column; }
-.user-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
-.user-plan { font-size: 0.75rem; color: var(--text-muted); }
+.developer-credit {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.developer-credit strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: var(--accent-light);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  font-size: 1.05rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.social-icon-btn:hover {
+  background-color: var(--accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
+}
 
 /* Main Workspace Layout */
 .main-workspace {
@@ -345,10 +389,13 @@ body {
 .chat-container {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 24px 14%;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .empty-state {
@@ -440,7 +487,9 @@ body {
 .message-wrapper {
   display: flex;
   width: 100%;
+  max-width: 100%;
   gap: 14px;
+  margin-bottom: 24px;
   animation: fadeIn 0.3s ease;
 }
 
@@ -464,14 +513,23 @@ body {
 .avatar.user-avatar { background-color: var(--accent); color: white; }
 .avatar.ai-avatar { background-color: var(--accent-light); color: var(--accent); border: 1px solid var(--border); }
 
-.message-body { max-width: 85%; display: flex; flex-direction: column; gap: 6px; }
+.message-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
 .message-bubble {
+  width: 100%;
+  max-width: 100%;
   padding: 16px 20px;
   border-radius: 12px;
   line-height: 1.6;
   font-size: 0.95rem;
   word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .message-wrapper.user .message-bubble {
@@ -508,6 +566,16 @@ body {
   font-weight: 700;
 }
 
+.message-bubble pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border-radius: 8px;
+  padding: 14px;
+  margin: 10px 0;
+}
+
 .message-bubble code {
   background: var(--accent-light);
   color: var(--accent);
@@ -515,6 +583,8 @@ body {
   border-radius: 4px;
   font-family: monospace;
   font-size: 0.88rem;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .streaming-cursor {
@@ -555,65 +625,110 @@ body {
 
 .tool-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
 
-/* Input Box Area */
-.input-area {
-  padding: 16px 14% 24px;
-  background: var(--bg-app);
+/* Input Box Wrapper & Container */
+.input-area-wrapper {
+  width: 100%;
+  padding: 0 20px 20px 20px;
+  background: transparent;
+  flex-shrink: 0;
 }
 
-.input-box {
-  background-color: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px 16px;
+.input-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 14px 16px 12px 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12),
+              0 0 0 1px rgba(168, 85, 247, 0.1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  transition: border-color 0.2s;
 }
 
-.input-box:focus-within { border-color: var(--accent); }
+.input-container:focus-within {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 8px 30px -4px rgba(168, 85, 247, 0.2);
+}
 
-textarea {
+.input-container textarea {
   width: 100%;
   background: transparent;
   border: none;
-  color: var(--text-main);
-  font-size: 0.95rem;
-  resize: none;
   outline: none;
-  max-height: 140px;
-  min-height: 38px;
+  resize: none;
+  color: var(--text-primary);
+  font-size: 0.975rem;
+  font-family: inherit;
   line-height: 1.5;
+  max-height: 200px;
+  min-height: 24px;
 }
 
-.input-actions-bar {
+.input-container textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.input-footer {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.input-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.char-counter {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--counter-bg);
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--counter-border);
+  letter-spacing: 0.3px;
 }
 
 .send-btn {
-  background-color: var(--accent);
-  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   border: none;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: #ffffff;
+  font-size: 0.95rem;
   cursor: pointer;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  font-size: 0.9rem;
-  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
 }
 
-.send-btn:hover { background-color: var(--accent-hover); transform: scale(1.05); }
+.send-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(168, 85, 247, 0.45);
+}
+
+.send-btn:active {
+  transform: translateY(0);
+}
 
 .send-btn:disabled {
-  background-color: var(--border);
-  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.3);
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .typing-indicator {
@@ -637,322 +752,59 @@ textarea {
   0%, 80%, 100% { transform: scale(0); }
   40% { transform: scale(1); }
 }
-/* Container Box */
-.input-container {
-    position: relative;
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
-    background: rgba(22, 18, 36, 0.75);
-    border: 1px solid rgba(168, 85, 247, 0.25);
-    border-radius: 16px;
-    padding: 14px 16px 12px 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(168, 85, 247, 0.1);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
 
-/* Container Glow on Focus */
-.input-container:focus-within {
-    border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 8px 30px -4px rgba(168, 85, 247, 0.15),
-                0 0 0 1px rgba(168, 85, 247, 0.4);
-}
-
-/* Textarea Field */
-.input-container textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    resize: none;
-    color: #f3f4f6;
-    font-size: 0.975rem;
-    font-family: inherit;
-    line-height: 1.5;
-    max-height: 200px;
-    min-height: 24px;
-}
-
-.input-container textarea::placeholder {
-    color: #9ca3af;
-    opacity: 0.7;
-}
-
-/* Bottom Toolbar Footer */
-.input-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 4px;
-}
-
-.input-tools {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Character Counter Badge */
-.char-counter {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #9ca3af;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3px 8px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    letter-spacing: 0.3px;
-}
-
-/* Send Button */
-.send-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-    color: #ffffff;
-    font-size: 0.95rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-}
-
-.send-btn:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, #b666ff 0%, #8b46ff 100%);
-    box-shadow: 0 6px 16px rgba(168, 85, 247, 0.45);
-}
-
-.send-btn:active {
-    transform: translateY(0);
-}
-
-.send-btn:disabled {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.3);
-    cursor: not-allowed;
-    box-shadow: none;
-}
-/* --- Root Theme Variables --- */
-:root {
-    --bg-primary: #0f0c1b;
-    --card-bg: rgba(22, 18, 36, 0.85);
-    --border-color: rgba(168, 85, 247, 0.25);
-    --text-primary: #f3f4f6;
-    --text-muted: #9ca3af;
-    --input-bg: rgba(22, 18, 36, 0.75);
-    --counter-bg: rgba(255, 255, 255, 0.05);
-    --counter-border: rgba(255, 255, 255, 0.08);
-}
-
-[data-theme="light"] {
-    --bg-primary: #f8fafc;
-    --card-bg: #ffffff;
-    --border-color: rgba(168, 85, 247, 0.3);
-    --text-primary: #1e1b4b;
-    --text-muted: #64748b;
-    --input-bg: #ffffff;
-    --counter-bg: rgba(168, 85, 247, 0.08);
-    --counter-border: rgba(168, 85, 247, 0.15);
-}
-
-/* --- Input Box Container Fixes (Issue 1 & 2) --- */
-.input-area-wrapper {
-    width: 100%;
-    padding: 0 20px 20px 20px; /* Fix 2: Bottom and horizontal gap */
-    background: transparent;
-    flex-shrink: 0;
-}
-
-.input-container {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 14px 16px 12px 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12),
-                0 0 0 1px rgba(168, 85, 247, 0.1);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.input-container:focus-within {
-    border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 8px 30px -4px rgba(168, 85, 247, 0.2);
-}
-
-.input-container textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    resize: none;
-    color: var(--text-primary);
-    font-size: 0.975rem;
-    font-family: inherit;
-    line-height: 1.5;
-    max-height: 200px;
-    min-height: 24px;
-}
-
-.input-container textarea::placeholder {
-    color: var(--text-muted);
-    opacity: 0.8;
-}
-
-.input-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 4px;
-}
-
-.char-counter {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    background: var(--counter-bg);
-    padding: 3px 8px;
-    border-radius: 12px;
-    border: 1px solid var(--counter-border);
-    letter-spacing: 0.3px;
-}
-
-.send-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: none;
-    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-    color: #ffffff;
-    font-size: 0.95rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-}
-
-.send-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(168, 85, 247, 0.45);
-}
-
-/* --- Answer Box Overflow Fix (Issue 3) --- */
-.chat-container {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px;
-    width: 100%;
-    max-width: 100%;
-}
-
-.message-wrapper {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 24px;
-    width: 100%;
-    max-width: 100%;
-}
-
-.message-body {
-    flex: 1;
-    min-width: 0; /* Prevents child elements from expanding past container flex parent */
-}
-
-.message-bubble {
-    width: 100%;
-    max-width: 100%;
-    word-break: break-word;
-    overflow-wrap: break-word;
-}
-
-/* Pre / Code Blocks Overflow Control */
-.message-bubble pre {
-    max-width: 100%;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    border-radius: 8px;
-    padding: 14px;
-    margin: 10px 0;
-}
-
-.message-bubble code {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
 /* --- Toast Notification Container --- */
 .toast-container {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
 }
 
 /* Individual Toast Box */
 .toast {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 18px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-primary, #f3f4f6);
-    background: var(--card-bg, rgba(22, 18, 36, 0.9));
-    border: 1px solid var(--border-color, rgba(168, 85, 247, 0.3));
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(168, 85, 247, 0.15);
-    opacity: 0;
-    transform: translateY(16px) scale(0.96);
-    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary, #f3f4f6);
+  background: var(--card-bg, rgba(22, 18, 36, 0.9));
+  border: 1px solid var(--border-color, rgba(168, 85, 247, 0.3));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+              0 0 0 1px rgba(168, 85, 247, 0.15);
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .toast.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
-/* Icon Variants */
 .toast.success i {
-    color: #10b981; /* Emerald green */
-    font-size: 1.05rem;
+  color: #10b981;
+  font-size: 1.05rem;
 }
 
 .toast.error i {
-    color: #ef4444; /* Red */
-    font-size: 1.05rem;
+  color: #ef4444;
+  font-size: 1.05rem;
 }
 
-/* Light Theme Support */
 [data-theme="light"] .toast {
-    background: #ffffff;
-    color: #1e1b4b;
-    border: 1px solid rgba(168, 85, 247, 0.25);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08),
-                0 0 0 1px rgba(168, 85, 247, 0.1);
+  background: #ffffff;
+  color: #1e1b4b;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08),
+              0 0 0 1px rgba(168, 85, 247, 0.1);
 }
